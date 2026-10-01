@@ -14,7 +14,6 @@ import Pause from '../components/pause';
 import Point from '../components/point';
 import Logo from '../components/logo';
 import Keyboard from '../components/keyboard';
-import Guide from '../components/guide';
 
 import { transform, lastRecord, speeds, i18n, lan } from '../unit/const';
 import { visibilityChangeEvent, isFocus } from '../unit/';
@@ -80,13 +79,19 @@ class App extends React.Component {
       const ratio = w > 0 ? h / w : 1.5;
       let scale = 1;
       let css = {};
-      if (ratio < 1.5) {
-        scale = h / 960;
+      if (ratio < 1.4) {
+        // Desktop / landscape: constrain to mobile device proportions (max-width 480px)
+        const targetW = Math.min(w, 480, (h * 640) / 960);
+        scale = Math.min(targetW / 640, h / 960);
+        css = {
+          marginTop: -480,
+        };
       } else {
+        // Mobile portrait: fit full width and stretch filling to cover entire screen
         scale = w / 640;
         if (scale > 0) {
           const rawFilling = (h - (960 * scale)) / scale / 3;
-          filling = isSafeNumber(rawFilling) ? rawFilling : 0;
+          filling = isSafeNumber(rawFilling) ? Math.max(0, rawFilling) : 0;
         } else {
           filling = 0;
         }
@@ -104,6 +109,8 @@ class App extends React.Component {
       }
       const transformKey = transform || 'transform';
       css[transformKey] = `scale(${scale})`;
+      css.transformOrigin = 'center center';
+      css.WebkitTransformOrigin = 'center center';
       return css;
     })();
 
@@ -143,7 +150,6 @@ class App extends React.Component {
           </div>
         </div>
         <Keyboard filling={filling} keyboard={this.props.keyboard} />
-        <Guide />
       </div>
     );
   }

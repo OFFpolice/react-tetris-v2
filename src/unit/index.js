@@ -88,13 +88,13 @@ const unit = {
     });
   },
   isMobile() { // Detect mobile device
-    const ua = navigator.userAgent;
-    const android = /Android (\d+\.\d+)/.test(ua);
-    const iphone = ua.indexOf('iPhone') > -1;
-    const ipod = ua.indexOf('iPod') > -1;
-    const ipad = ua.indexOf('iPad') > -1;
-    const nokiaN = ua.indexOf('NokiaN') > -1;
-    return android || iphone || ipod || ipad || nokiaN;
+    if (typeof window === 'undefined' || typeof navigator === 'undefined') {
+      return false;
+    }
+    const ua = navigator.userAgent || '';
+    const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(ua);
+    const hasTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    return isMobileUA || hasTouch;
   },
   visibilityChangeEvent,
   isFocus,

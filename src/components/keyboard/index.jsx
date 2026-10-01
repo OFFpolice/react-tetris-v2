@@ -12,27 +12,26 @@ export default class Keyboard extends React.Component {
   componentDidMount() {
     const touchEventCatch = {}; // Record touchstart to ignore subsequent mouse events on mobile
 
+    const preventDefault = (e) => {
+      if (e && e.cancelable && e.preventDefault) {
+        e.preventDefault();
+      }
+    };
+
+    // Eliminate stretch, elastic overscroll, and rubber-band effects on touch devices
+    document.addEventListener('touchmove', preventDefault, { passive: false });
+    window.addEventListener('touchmove', preventDefault, { passive: false });
+
+    // Block gesture events (pinch zoom, stretch zoom)
+    document.addEventListener('gesturestart', preventDefault, { passive: false });
+    document.addEventListener('gesturechange', preventDefault, { passive: false });
+    document.addEventListener('gestureend', preventDefault, { passive: false });
+
+    document.addEventListener('touchstart', preventDefault, { passive: false, capture: true });
+    document.addEventListener('touchend', preventDefault, { passive: false, capture: true });
+
     // Simulate mouseup on mouseout
     const mouseDownEventCatch = {};
-    document.addEventListener('touchstart', (e) => {
-      if (e.preventDefault) {
-        e.preventDefault();
-      }
-    }, true);
-
-    // Fix issue: https://github.com/chvin/react-tetris/issues/24
-    document.addEventListener('touchend', (e) => {
-      if (e.preventDefault) {
-        e.preventDefault();
-      }
-    }, true);
-
-    // Prevent pinch to zoom
-    document.addEventListener('gesturestart', (e) => {
-      if (e.preventDefault) {
-        event.preventDefault();
-      }
-    });
 
     document.addEventListener('mousedown', (e) => {
       if (e.preventDefault) {
@@ -61,13 +60,25 @@ export default class Keyboard extends React.Component {
           todo[key].up(store);
         }
       }, true);
-      this[`dom_${key}`].dom.addEventListener('touchstart', () => {
+      this[`dom_${key}`].dom.addEventListener('touchstart', (e) => {
+        if (e && e.cancelable && e.preventDefault) {
+          e.preventDefault();
+        }
         touchEventCatch[key] = true;
         todo[key].down(store);
-      }, true);
-      this[`dom_${key}`].dom.addEventListener('touchend', () => {
+      }, { passive: false, capture: true });
+      this[`dom_${key}`].dom.addEventListener('touchend', (e) => {
+        if (e && e.cancelable && e.preventDefault) {
+          e.preventDefault();
+        }
         todo[key].up(store);
-      }, true);
+      }, { passive: false, capture: true });
+      this[`dom_${key}`].dom.addEventListener('touchcancel', (e) => {
+        if (e && e.cancelable && e.preventDefault) {
+          e.preventDefault();
+        }
+        todo[key].up(store);
+      }, { passive: false, capture: true });
     });
   }
   shouldComponentUpdate({ keyboard, filling }) {
