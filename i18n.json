@@ -1,0 +1,68 @@
+{
+    "lan": [
+        "en"
+    ],
+    "default": "en",
+    "data": {
+        "title": {
+            "en": "T E T R I S"
+        },
+        "github": {
+            "en": "GitHub"
+        },
+        "linkTitle": {
+            "en": "View data source"
+        },
+        "QRCode": {
+            "en": "QR code"
+        },
+        "titleCenter": {
+            "en": "TETRIS"
+        },
+        "point": {
+            "en": "Point"
+        },
+        "highestScore": {
+            "en": "Max"
+        },
+        "lastRound": {
+            "en": "Last Round"
+        },
+        "cleans": {
+            "en": "Cleans"
+        },
+        "level": {
+            "en": "Level"
+        },
+        "startLine": {
+            "en": "Start Line"
+        },
+        "next": {
+            "en": "Next"
+        },
+        "pause": {
+            "en": "Pause"
+        },
+        "sound": {
+            "en": "Sound"
+        },
+        "reset": {
+            "en": "Reset"
+        },
+        "rotation": {
+            "en": "Rotation"
+        },
+        "left": {
+            "en": "Left"
+        },
+        "right": {
+            "en": "Right"
+        },
+        "down": {
+            "en": "Down"
+        },
+        "drop": {
+            "en": "Drop"
+        }
+    }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Tetris",
+  "description": "Classic retro Tetris game built with React, Redux, and Immutable.js",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
